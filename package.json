@@ -2,12 +2,16 @@
   "name": "joanapi",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/joan-api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel --presets es2015 -d dist/ src"
+    "develop": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
-  "keywords": ["joan", "getjoan"],
+  "keywords": [
+    "joan",
+    "getjoan"
+  ],
   "author": "wml",
   "license": "MIT",
   "engines": {
@@ -19,6 +23,8 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1"
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   }
 }
