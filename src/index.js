@@ -133,5 +133,7 @@ class JoanAPI {
   }
 }
 
-export default JoanAPI
+const instance = new JoanAPI();
+Object.freeze(instance);
 
+export default instance;
