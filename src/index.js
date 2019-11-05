@@ -2,27 +2,23 @@ const fetch = require('node-fetch');
 const base64 = require('base-64');
 
 class JoanAPI {
-  constructor({clientId, secret}) {
-    if (!!JoanAPI.instance) {
-      return JoanAPI.instance;
-    }
-
-    JoanAPI.instance = this;
-
-    this.clientId = clientId;
-    this.secret = secret;
+  constructor() {
     this.credentials = { 
-      access_token: '',
       expires_in: 36000,
       token_type: 'Bearer',
       scope: 'read write'
     };
     this.expiry = new Date();
-
-    return this;
   }
 
-  getToken(){
+  static configure({clientId, secret}){
+    JoanAPI.prototype.clientId = clientId;
+    JoanAPI.prototype.secret = secret;
+  }
+
+  static getToken(){
+    if (this.clientId === null || this.secret === null) throw new Error("Have not configured api credentials.")
+
     return new Promise((resolve, reject) => {
       fetch("https://portal.getjoan.com/api/token/", {
         body: "grant_type=client_credentials",
@@ -38,45 +34,45 @@ class JoanAPI {
       })
       .then(res => res.json())
       .then(json => {
-        this.credentials = json;
+        JoanAPI.prototype.credentials = json;
   
         let dt = new Date();
         dt.setSeconds( dt.getSeconds() + json.expires_in );
-        this.expiry = dt;
+        JoanAPI.prototype.expiry = dt;
         resolve(true);
       })
     })
   }
 
   async initialize() {
-    if (this.credentials.access_token === '' || this.expiry < new Date()) {
+    if (!!this.credentials.access_token || this.expiry < new Date()) {
       await this.getToken();
     }
   }
 
   // GET Endpoints here
-  async me(){
+  static async me(){
     return this.getReq('me')
   }
 
-  async users(){
+  static async users(){
     return this.getReq('users')
   }
 
-  async events(){
+  static async events(){
     return this.getReq('events')
   }
 
-  async rooms(){
+  static async rooms(){
     return this.getReq('rooms')
   }
 
-  async devices(){
+  static async devices(){
     return this.getReq('devices')
   }
 
   // POST With a body
-  async book(data){
+  static async book(data){
     await this.initialize();
 
     return new Promise((resolve, reject) => {
@@ -117,27 +113,6 @@ class JoanAPI {
       .catch(err => reject(err))
     })
 
-  }
-
-  async postReq(endpoint = 'book', body = {}) {
-    await this.initialize();
-
-    return new Promise((resolve, reject) => {
-      fetch(`https://portal.getjoan.com/api/v1.0/${endpoint}`, {
-        headers: { "Authorization": `Bearer ${this.credentials.access_token}`},
-        body: JSON.stringify(body),
-        method: "OPTIONS"
-      })
-      .then((res) => {
-        if (res.ok) { return res; } 
-        else { reject(res.statusText); }
-      })
-      // .then(res => {console.log(res); return res})
-      // .then(resp => resolve(resp))
-      .then(res => res.json())
-      .then(json => resolve(json))
-      .catch(err => reject(err))
-    })
   }
 }
 

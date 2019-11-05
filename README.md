@@ -17,12 +17,13 @@ $ npm install joanapi
 ```js
 import JoanAPI from 'joanapi';
 
-let api = new JoanAPI({
+// Put this as close to the entrypoint as you can.
+JoanAPI.configure({
   clientId: 'client_id_here', 
   secret: 'secret_id_here'
 })
 
-api.book({
+JoanAPI.book({
   source: "conf_room_one.calendar.google.com",
   start: "2019-11-05T13:00:00-05:00",
   end: "2019-11-05T14:00:00-05:00",
