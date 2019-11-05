@@ -41,7 +41,6 @@ class JoanAPI {
     if (!credentials || !credentials.access_token || expiry < new Date()) {
       await JoanAPI.getToken();
     }
-    console.log('prototype', JoanAPI.prototype)
   }
 
   // GET Endpoints here

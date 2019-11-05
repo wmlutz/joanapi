@@ -42,6 +42,7 @@ JoanAPI.book({
 - rooms
 - devices
 - book
+- cancel
 
 See: https://portal.getjoan.com/api/docs/ for more info.
 ### API
