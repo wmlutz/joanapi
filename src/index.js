@@ -3,6 +3,12 @@ const base64 = require('base-64');
 
 class JoanAPI {
   constructor({clientId, secret}) {
+    if (!!JoanAPI.instance) {
+      return JoanAPI.instance;
+    }
+
+    JoanAPI.instance = this;
+
     this.clientId = clientId;
     this.secret = secret;
     this.credentials = { 
@@ -12,6 +18,8 @@ class JoanAPI {
       scope: 'read write'
     };
     this.expiry = new Date();
+
+    return this;
   }
 
   getToken(){
@@ -133,7 +141,4 @@ class JoanAPI {
   }
 }
 
-const instance = new JoanAPI();
-Object.freeze(instance);
-
-export default instance;
+export default JoanAPI;
