@@ -75,7 +75,7 @@ class JoanAPI {
         headers: {
           Accept: "*/*",
           "Authorization": `Bearer ${access_token}`,
-          "Cache-Control": "no-cache",
+          // "Cache-Control": "no-cache",
           "Content-Type": "application/json",
         },
         method: "POST"
@@ -91,11 +91,6 @@ class JoanAPI {
   }
 
   static async cancel(data){
-    // {
-    //   "event_id": "id",
-    //   "timezone": "America/New_York",
-    //   "room_id": "room address"
-    // }
     await JoanAPI.initialize();
     const {access_token} = JoanAPI.prototype.credentials;
 
@@ -105,8 +100,7 @@ class JoanAPI {
         headers: {
           Accept: "*/*",
           "Authorization": `Bearer ${access_token}`,
-          "Cache-Control": "no-cache",
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         method: "POST"
       })
