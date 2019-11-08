@@ -1,12 +1,13 @@
 {
   "name": "joanapi",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "main": "dist/joan-api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "runit": "npx babel-node --inspect --presets es2015 -- src/test.js --inspect"
+    "runit": "npx babel-node --inspect --presets es2015 -- src/test.js --inspect",
+    "deploy": "yarn build && npm publish"
   },
   "keywords": [
     "joan",

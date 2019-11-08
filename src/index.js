@@ -75,7 +75,6 @@ class JoanAPI {
         headers: {
           Accept: "*/*",
           "Authorization": `Bearer ${access_token}`,
-          // "Cache-Control": "no-cache",
           "Content-Type": "application/json",
         },
         method: "POST"
@@ -105,11 +104,9 @@ class JoanAPI {
         method: "POST"
       })
       .then((res) => {
-        if (res.ok) return res;
+        if (res.ok) resolve(res);
         else reject(res.statusText);
       })
-      .then(res => res.json())
-      .then(json => resolve(json))
       .catch(err => reject(err))
     })
   }
